@@ -1,14 +1,22 @@
-# 52-card Fisher–Yates from chained sha256 seeds
+# 52-card Fisher–Yates from chained sha256
 
 > **Domain:** WAX ORNG — deck shuffle  
-> **Catalog:** [px-contract-examples-vault](https://github.com/pixel-journey/px-contract-examples-vault)  
+> **Sources:** [SOURCES.md](SOURCES.md)  
 > **Path:** [ORNG-LEARNING-PATH.md](https://github.com/pixel-journey/px-contract-examples-vault/blob/main/docs/ORNG-LEARNING-PATH.md)
 
-**Goal:** For `i` from 51 down to 1, swap position `i` with a uniform index in `0..i`. Each draw is `sha256` of the previous 32-byte seed. Values in the leftover tail of `2^32` are rejected; a step that rejects 16 times stops (loop bound).
+**Goal:** Unbiased Fisher–Yates: each swap index drawn with rejection sampling from chained sha256 sub-seeds; reject cap prevents unbounded loops.
 
-**Code under test:** `npm test`. SHA-256 runs in-process. No live `orng.wax`, no wasm.
+**Code under test:** `npm test`. Algorithmic sha256 only — not a chain RPC.
 
-**Official RNG:** [wax-orng](https://github.com/worldwide-asset-exchange/wax-orng) for production entropy delivery; this lab teaches fair shuffle math on a fixed seed.
+## Learning materials
+
+| Doc | Role |
+| --- | --- |
+| [EDUCATION.md](EDUCATION.md) | Beginner → masterclass |
+| [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) | Permutation, reject cap |
+| [TIPS.md](TIPS.md) | Avoid biased `% n` |
+| [SECURITY.md](SECURITY.md) | Seed and loops |
+| [SOURCES.md](SOURCES.md) | Official |
 
 ```bash
 npm test

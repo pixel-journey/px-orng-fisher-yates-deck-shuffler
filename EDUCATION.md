@@ -1,10 +1,28 @@
-# Education
+# Education — Fisher–Yates from chained hashes
 
-A single `uint32 % (i+1)` biases the last cards whenever `i+1` does not divide `2^32`. This lab rejects the tail, same rule as the byte slicer, but each swap consumes a **new** sha256 of the previous seed so later cards are not a slice of the same word.
+> **Rung:** `npm test` passes. `sha256` here is the algorithm, not a chain call.  
+> Seed comes from resolved oracle entropy in a full stack.
 
-The loop is bounded twice:
+## What you should be able to do
 
-1. Exactly 51 swaps (`i` from 51 down to 1). Position 0 is whatever remains.
-2. At most 16 rejects per swap. A stuck stream throws `reject cap` instead of spinning.
+| Level | Skill |
+| --- | --- |
+| Beginner | Why Fisher–Yates needs uniform `j` in `0..i` |
+| Intermediate | Chain sub-seeds via sha256 |
+| Masterclass | Rejection sampling per step + reject cap |
 
-`j = 0` on every swap walks the original card 0 to the end of the deck. That is a known permutation, used as a fixture, not a claim about a particular on-chain seed.
+## Beginner
+
+For `i = 51 .. 1`, swap `deck[i]` with `deck[j]` where `j` is uniform in `0..i`. Result must be a permutation of `0..51`.
+
+## Intermediate
+
+Each step: `seed = sha256(seed)`, take first 8 hex digits as uint32, map into `0..i` with rejection of the non-multiple tail of `2^32`.
+
+## Masterclass
+
+`MAX_REJECTS = 16` per index prevents unbounded loops. Total hashes bounded by `(51) * 16`. Bad seed length refused.
+
+## Will not teach
+
+Card game payouts, hand evaluation, or live orng delivery.
