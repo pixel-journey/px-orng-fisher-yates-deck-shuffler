@@ -1,28 +1,27 @@
-# Education — Fisher–Yates from chained hashes
+# Education — Fisher–Yates with reject-capped draws
 
-> **Rung:** `npm test` passes. `sha256` here is the algorithm, not a chain call.  
-> Seed comes from resolved oracle entropy in a full stack.
-
-## What you should be able to do
-
-| Level | Skill |
-| --- | --- |
-| Beginner | Why Fisher–Yates needs uniform `j` in `0..i` |
-| Intermediate | Chain sub-seeds via sha256 |
-| Masterclass | Rejection sampling per step + reject cap |
+Shuffle a 52-card deck from a 32-byte seed by chaining sha256 sub-seeds. Each index draw uses rejection sampling; a hard **MAX_REJECTS** prevents infinite loops.
 
 ## Beginner
 
-For `i = 51 .. 1`, swap `deck[i]` with `deck[j]` where `j` is uniform in `0..i`. Result must be a permutation of `0..51`.
+1. Seed is 64 lowercase hex chars (uppercase normalized).
+2. Output is a permutation of `0..51`.
+3. Same seed → same deck.
 
 ## Intermediate
 
-Each step: `seed = sha256(seed)`, take first 8 hex digits as uint32, map into `0..i` with rejection of the non-multiple tail of `2^32`.
+Hash count is at least 51 and at most `51 * MAX_REJECTS`. An all-`ff` stream that always rejects throws `reject cap` instead of spinning forever.
 
-## Masterclass
+A stream of zeros still yields a valid permutation with known final positions for cards 0 and 1 — the inside-out check that naive `i % n` would not teach.
 
-`MAX_REJECTS = 16` per index prevents unbounded loops. Total hashes bounded by `(51) * 16`. Bad seed length refused.
+## Masterclass (not in this repo)
 
-## Will not teach
+Antelope host sha256; multi-deck shoes; live orng delivery of the seed.
 
-Card game payouts, hand evaluation, or live orng delivery.
+## Outcomes
+
+1. Show deterministic shuffle for SEED vs OTHER.
+2. Show reject-cap failure mode.
+3. Show zero-stream permutation properties.
+
+Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md).
