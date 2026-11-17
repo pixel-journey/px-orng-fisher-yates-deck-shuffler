@@ -1,10 +1,11 @@
-# Security notes — Fisher–Yates
+# Security — deck shuffler
 
-| Mitigated | Behavior |
-| --- | --- |
-| Bad seed | refused |
-| Biased index | reject + redraw |
-| Unbounded loop | MAX_REJECTS |
-| Non-permutation | test asserts |
+## Closed in tests
 
-Production: seed only from oracle once-only resolve; do not let players supply the master seed after seeing cards.
+Bad seeds; determinism; permutation; reject-cap throw; zero-stream structure.
+
+## Not closed
+
+Oracle seed integrity; host vs Node hash parity; card-game economic abuse (marked decks, peek).
+
+Teaching shuffle only — no token escrow in this repository.

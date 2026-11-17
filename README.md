@@ -1,11 +1,14 @@
-# Fisher–Yates deck from chained sha256 sub-seeds
+# Fisher–Yates deck shuffler (reject-capped)
 
-52-card shuffle with rejection-sampled index draws and a hard reject cap. Node sha256 in tests — not Antelope host crypto, not orng.wax.
+Educational 52-card shuffle from chained sha256 sub-seeds with MAX_REJECTS. Pure TypeScript.
 
 | Doc | Role |
 | --- | --- |
-| [EDUCATION.md](EDUCATION.md) | Reject cap and determinism |
-| [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) | SEED / OTHER / zero stream |
+| [EDUCATION.md](EDUCATION.md) | Beginner → masterclass |
+| [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) | SEED / zero-stream |
+| [TIPS.md](TIPS.md) | CPU-safe design |
+| [SECURITY.md](SECURITY.md) | Gaps |
+| [SOURCES.md](SOURCES.md) | Links |
 
 ```bash
 npm test
