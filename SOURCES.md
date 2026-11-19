@@ -7,7 +7,13 @@
 | [RNG tutorial](https://docs.wax.io/build/tutorials/create-wax-rng-smart-contract/rng_sample) | Sample dapp path |
 | [docs.wax.io](https://docs.wax.io/) | WAX development |
 
-Node `sha256` in this lab is a **teaching hash**. Production must golden-vector the host intrinsic against the same seeds before shipping.
+## Product facts locked by tests
+
+- Each swap index draws from a **chained sha256** sub-seed, not from independent byte windows.
+- Rejection sampling applies **per index**. The lab **reject cap is 16** — avoid an infinite loop on a bad stream.
+- Never settle a rejected sample into a card index.
+- Node `sha256` here is a **teaching hash**. Production must golden-vector the host intrinsic against the same seeds before shipping.
+- This is not a weighted loot band. Bands are [loot CDF](https://github.com/pixel-journey/px-orng-weighted-loot-table-cdf).
 
 ## Related labs
 
