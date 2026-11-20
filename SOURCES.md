@@ -22,4 +22,4 @@
 | [byte-slicer](https://github.com/pixel-journey/px-orng-byte-slicer-multi-roll) | Independent modular rolls (not a deck) |
 | [loot CDF](https://github.com/pixel-journey/px-orng-weighted-loot-table-cdf) | Weighted band pick |
 | [dual-callback](https://github.com/pixel-journey/px-orng-dual-callback-idempotent) | Once-resolve before using the seed |
-| [ORNG path](https://github.com/pixel-journey/px-contract-examples-vault/blob/main/docs/ORNG-LEARNING-PATH.md) | Curriculum order + reject windows |
+| `px-contract-examples-vault` (private index; not this public course) | Curriculum order + reject windows |
