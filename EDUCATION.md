@@ -27,11 +27,28 @@ Seed is 64 hex chars (uppercase normalized). `SEED = 11`×32, `OTHER = 22`×32.
 | shuffle(OTHER) | different deck |
 | isPermutation | true |
 
+```bash
+npm test
+```
+
+---
+
 ## Intermediate
 
 Hash count ∈ `[51, 51 * 16]`. An all-`ff` stream that always rejects throws **`reject cap`** instead of spinning forever — critical for contract CPU limits.
 
 Bad seeds: short, non-hex, odd length → refused.
+
+### Attack → test
+
+| Attack | Lab behavior |
+| --- | --- |
+| Unbounded reject loop | throw at MAX_REJECTS **16** |
+| Naked `i % n` bias | rejection sampling required |
+| Treat as eight dice | use [byte-slicer](https://github.com/pixel-journey/px-orng-byte-slicer-multi-roll) |
+| Claim Node sha256 = host | not until proven |
+
+---
 
 ## Masterclass — zero stream
 
@@ -46,25 +63,23 @@ That is the inside-out check: a degenerate stream is still a permutation with **
 
 ### Common mistakes
 
-1. Swapping with `i + (stream % (n - i + 1))` without rejection when the modulus does not divide the range evenly.  
+1. Swapping without rejection when the modulus does not divide the range evenly.  
 2. Unbounded reject loop (CPU grief).  
 3. Shipping Node-only vectors without host parity tests.  
-4. Treating this as eight independent dice rolls — use [byte-slicer](https://github.com/pixel-journey/px-orng-byte-slicer-multi-roll) for that.
-
-### Nice-to-have extensions (not in this repo)
-
-| Extension | Note |
-| --- | --- |
-| Multi-deck shoe | Larger DECK_SIZE + new tests |
-| Deal without full shuffle | Partial Fisher–Yates |
-| Live seed from orng | Dual-callback once; seed = randomness |
-| Host sha256 | Antelope intrinsic; verify against this lab's vectors |
-| Commit seed before reveal | [commit-reveal](https://github.com/pixel-journey/px-rng-fallback-commit-reveal) if orng is unavailable |
-
-Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md).
+4. Treating this as eight independent dice rolls.
 
 ### Exercises
 
-1. Same seed twice — same deck? (Yes.)  
-2. Always-reject stream — infinite loop or throw? (Throw reject cap.)  
-3. Is Node sha256 the Antelope intrinsic until proven? (No.)
+1. Same seed twice — same deck? (**Yes**.)  
+2. Always-reject stream — infinite loop or throw? (**Throw reject cap**.)  
+3. Is Node sha256 the Antelope intrinsic until proven? (**No**.)
+
+Numbers: [WORKED-EXAMPLES.md](WORKED-EXAMPLES.md) · [SECURITY](SECURITY.md) · [SOURCES](SOURCES.md).
+
+---
+
+## What this course will not teach
+
+- Live orng seed delivery
+- Host sha256 parity without golden vectors
+- A multi-deck shoe without new tests
